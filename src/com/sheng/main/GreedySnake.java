@@ -1,7 +1,5 @@
 package com.sheng.main;
 
-import javax.swing.JFrame;
-
 public class GreedySnake {
 
 	public static void main(String[] args) {

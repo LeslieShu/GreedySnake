@@ -1,12 +1,15 @@
 package com.sheng.main;
 
 import java.awt.Point;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Snake {
 	protected Point head;
 	protected LinkedList<Point> body;
 	protected int length;
+	protected int throughWall;//可穿墙属性
+	protected int throughBody;//可穿身属性
 	protected GamePanel gamePanel;
 	protected int direction;	
 	
@@ -19,6 +22,8 @@ public class Snake {
 		body.add(new Point(0*8, 0));
 		length=5;
 		direction=1;
+		throughWall=0;
+		throughBody=0;
 		gamePanel=null;
 	}
 	/**
@@ -41,6 +46,14 @@ public class Snake {
 	public boolean isEat(Food food){
 		Point tmpNode=this.body.getLast();
 		if(head.equals(food.pos)){
+			
+			//若吃到特殊食物可增加相应技能
+			if(food.flag==1){
+				throughBody++;
+			}else if(food.flag==2){
+				throughWall++;
+			}
+			
 			body.add(tmpNode);
 			length++;
 			return true;
@@ -52,48 +65,73 @@ public class Snake {
 	 * 然后将蛇头和蛇身重新指向新建蛇头和蛇身，完成一次移动
 	 * */
 	public void move(){
-		Point tmpHeadNode;
+		Point tmpHeadNode=new Point(0,0);
+		Point tmpBodyNode;
 		LinkedList<Point> tmpBody=new LinkedList<Point>();
 		switch(direction){
 		case 0:
 			tmpHeadNode=new Point(head.x,head.y-8);
+			if(tmpHeadNode.y<0 && throughWall>0){					//若出界则加上相应高度在对边出现，下面的移动原理同此
+				tmpHeadNode.y+=gamePanel.height;
+			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){
-				tmpBody.add(body.get(i));
+				tmpBodyNode=body.get(i);
+				if(tmpBodyNode.y<0){
+					tmpBodyNode.y+=gamePanel.height;
+				}
+				tmpBody.add(tmpBodyNode);
 			}
-			head=tmpHeadNode;
-			body=tmpBody;
 			break;
 		case 1:
 			tmpHeadNode=new Point(head.x+8,head.y);
+			if(tmpHeadNode.x>=gamePanel.width && throughWall>0){
+				tmpHeadNode.x-=gamePanel.width;
+			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){
-				tmpBody.add(body.get(i));
+				tmpBodyNode=body.get(i);
+				if(tmpBodyNode.x>=gamePanel.width){
+					tmpBodyNode.x-=gamePanel.width;
+				}
+				tmpBody.add(tmpBodyNode);
 			}
-			head=tmpHeadNode;
-			body=tmpBody;
 			break;
 		case 2:
 			tmpHeadNode=new Point(head.x,head.y+8);
+			if(tmpHeadNode.y>=gamePanel.height && throughWall>0){
+				tmpHeadNode.y-=gamePanel.height;
+			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){
-				tmpBody.add(body.get(i));
+				tmpBodyNode=body.get(i);
+				if(tmpBodyNode.y>=gamePanel.height){
+					tmpBodyNode.y-=gamePanel.height;
+				}
+				tmpBody.add(tmpBodyNode);
 			}
-			head=tmpHeadNode;
-			body=tmpBody;
 			break;
 		case 3:
 			tmpHeadNode=new Point(head.x-8,head.y);
+			if(tmpHeadNode.x<0 && throughWall>0){
+				tmpHeadNode.x+=gamePanel.width;
+			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){
-				tmpBody.add(body.get(i));
+				tmpBodyNode=body.get(i);
+				if(tmpBodyNode.x<0){
+					tmpBodyNode.x+=gamePanel.width;
+				}
+				tmpBody.add(tmpBodyNode);
 			}
-			head=tmpHeadNode;
-			body=tmpBody;
 			break;
 		}
+		head=tmpHeadNode;
+		body=tmpBody;
 	}
-	//是否出界
+	/**
+	 * 是否出界
+	 * */
 	public boolean isOut(){
 		if(head.x>gamePanel.width || head.x<0 || head.y <0 || head.y >gamePanel.height){
 			return true;

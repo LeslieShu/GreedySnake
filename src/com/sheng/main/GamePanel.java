@@ -5,11 +5,13 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Iterator;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
  * 游戏面板，同时作为一个线程存在
  * */
+
 public class GamePanel extends JPanel implements Runnable{
 	protected Snake snake;
 	protected Food food;
@@ -19,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.snake=snake;
 		this.width=width;
 		this.height=height;
-		this.setBounds(400, 400, width, height);
+		this.setBounds(0, 0, width, height);
 		this.setBackground(Color.GRAY);
 	}
 	/**
@@ -36,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paint(g);
+		snake.setGamePanel(this);
 		g.setColor(Color.BLUE);
 		g.fill3DRect(snake.head.x,snake.head.y, 8, 8,true);//绘制蛇头
 		
@@ -47,8 +50,18 @@ public class GamePanel extends JPanel implements Runnable{
 			g.fill3DRect(tmpNode.x, tmpNode.y, 8, 8,true);//绘制蛇身的每一个节点
 		}
 		
-		g.setColor(Color.RED);
 		if(food!=null){
+			switch(food.flag){
+			case 0:
+				g.setColor(Color.RED);
+				break;
+			case 1:
+				g.setColor(Color.GREEN);
+				break;
+			case 2:
+				g.setColor(Color.YELLOW);
+				break;
+			}
 			g.fill3DRect(food.pos.x, food.pos.y, 8, 8,true);//绘制食物
 		}
 	}
@@ -76,12 +89,17 @@ public class GamePanel extends JPanel implements Runnable{
 				}
 				
 				if(snake.isOut()){
-					System.out.println("撞到墙了");
-					//snake.dead();
+					if(snake.throughWall==0){
+						snake.dead();
+					}
+					snake.throughWall--;
 				}
 				
 				if(snake.isPitch()){
-					snake.dead();
+					if(snake.throughBody==0){
+						snake.dead();
+					}
+					snake.throughBody--;
 				}
 				
 				repaint();
