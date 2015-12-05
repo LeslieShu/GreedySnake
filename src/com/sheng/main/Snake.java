@@ -1,7 +1,6 @@
 package com.sheng.main;
 
 import java.awt.Point;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Snake {
@@ -73,6 +72,7 @@ public class Snake {
 			tmpHeadNode=new Point(head.x,head.y-8);
 			if(tmpHeadNode.y<0 && throughWall>0){					//若出界则加上相应高度在对边出现，下面的移动原理同此
 				tmpHeadNode.y+=gamePanel.height;
+				throughWall--;
 			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){
@@ -87,6 +87,7 @@ public class Snake {
 			tmpHeadNode=new Point(head.x+8,head.y);
 			if(tmpHeadNode.x>=gamePanel.width && throughWall>0){
 				tmpHeadNode.x-=gamePanel.width;
+				throughWall--;
 			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){
@@ -101,6 +102,7 @@ public class Snake {
 			tmpHeadNode=new Point(head.x,head.y+8);
 			if(tmpHeadNode.y>=gamePanel.height && throughWall>0){
 				tmpHeadNode.y-=gamePanel.height;
+				throughWall--;
 			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){
@@ -115,6 +117,7 @@ public class Snake {
 			tmpHeadNode=new Point(head.x-8,head.y);
 			if(tmpHeadNode.x<0 && throughWall>0){
 				tmpHeadNode.x+=gamePanel.width;
+				throughWall--;
 			}
 			tmpBody.add(head);
 			for(int i=0;i<body.size()-1;i++){

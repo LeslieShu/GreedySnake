@@ -89,10 +89,7 @@ public class GamePanel extends JPanel implements Runnable{
 				}
 				
 				if(snake.isOut()){
-					if(snake.throughWall==0){
-						snake.dead();
-					}
-					snake.throughWall--;
+					snake.dead();
 				}
 				
 				if(snake.isPitch()){

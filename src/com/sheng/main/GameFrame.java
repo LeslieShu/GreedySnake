@@ -30,8 +30,8 @@ public class GameFrame extends JFrame{
 		setBounds(locationX, locationY, gamePanel.width, gamePanel.height);
 		setVisible(true);
 		setResizable(false);
-//		setTitle("Ã∞≥‘…ﬂ");
-//		setIconImage(new ImageIcon(getClass().getResource("GreedySnake.png")).getImage());
+		setTitle("Ã∞≥‘…ﬂ");
+		setIconImage(new ImageIcon(getClass().getResource("GreedySnake.png")).getImage());
 		addKeyListener(new MyKeyListener(snake));
 	}
 }
