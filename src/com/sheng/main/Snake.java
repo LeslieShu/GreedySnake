@@ -10,9 +10,17 @@ public class Snake {
 	protected int throughWall;//可穿墙属性
 	protected int throughBody;//可穿身属性
 	protected GamePanel gamePanel;
-	protected int direction;	
-	
-	Snake(){
+	protected int direction;
+	protected int score;
+	/**
+	 * 级别，1,2,3分别代表低中高级，级别的改变会影响蛇的速度，级别可以在开始面板中进行控制，也可以游戏进行过程中随着得分增加进行提高
+	 * */
+	protected int level;	
+	/**
+	 * 蛇的构造方法，蛇的产生依赖于游戏面板
+	 * */
+	Snake(GamePanel gamePanel){//蛇的产生依赖于游戏面板
+		this.gamePanel=gamePanel;
 		head=new Point(4*8, 0);
 		body=new LinkedList<Point>();
 		body.add(new Point(3*8, 0));
@@ -23,13 +31,16 @@ public class Snake {
 		direction=1;
 		throughWall=0;
 		throughBody=0;
-		gamePanel=null;
+		score=0;
+		level=1;//游戏级别默认为1，最低，增加一个set方法可以进行设置
 	}
+	
+	
 	/**
-	 * 设置蛇所在游戏面板
+	 * 设置游戏级别，通过蛇的level属性来体现
 	 * */
-	public void setGamePanel(GamePanel gamePanel){
-		this.gamePanel=gamePanel;
+	public void setLevel(int level){
+		this.level=level;
 	}
 	
 	/**
@@ -46,11 +57,15 @@ public class Snake {
 		Point tmpNode=this.body.getLast();
 		if(head.equals(food.pos)){
 			
-			//若吃到特殊食物可增加相应技能
+			//若吃到特殊食物可增加相应技能和分数
 			if(food.flag==1){
 				throughBody++;
+				score+=3;
 			}else if(food.flag==2){
 				throughWall++;
+				score+=2;
+			}else{
+				score++;
 			}
 			
 			body.add(tmpNode);
@@ -64,7 +79,7 @@ public class Snake {
 	 * 然后将蛇头和蛇身重新指向新建蛇头和蛇身，完成一次移动
 	 * */
 	public void move(){
-		Point tmpHeadNode=new Point(0,0);
+		Point tmpHeadNode=new Point(0, 0);
 		Point tmpBodyNode;
 		LinkedList<Point> tmpBody=new LinkedList<Point>();
 		switch(direction){
@@ -130,7 +145,7 @@ public class Snake {
 			break;
 		}
 		head=tmpHeadNode;
-		body=tmpBody;
+		body=tmpBody;		
 	}
 	/**
 	 * 是否出界
@@ -156,5 +171,6 @@ public class Snake {
 	public void dead(){
 		System.exit(0);
 	}
+	
 }
 

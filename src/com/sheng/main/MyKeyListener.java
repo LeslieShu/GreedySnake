@@ -3,11 +3,15 @@ package com.sheng.main;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFrame;
+
 public class MyKeyListener extends KeyAdapter {
 	protected Snake snake;
+	protected GameFrame gameFrame;
 	
-	MyKeyListener(Snake snake){
+	MyKeyListener(Snake snake,GameFrame gameFrame){
 		this.snake=snake;
+		this.gameFrame=gameFrame;
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -24,6 +28,9 @@ public class MyKeyListener extends KeyAdapter {
 				break;
 			case KeyEvent.VK_RIGHT:
 				snake.setDirection(1);
+				break;
+			case KeyEvent.VK_SPACE:
+				gameFrame.gamePanel.isPaused=!gameFrame.gamePanel.isPaused;
 				break;
 		}
 	}

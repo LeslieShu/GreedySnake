@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 /**
  * 游戏面板，同时作为一个线程存在
@@ -15,15 +16,28 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements Runnable{
 	protected Snake snake;
 	protected Food food;
-	protected int width,height;
+	protected boolean isPaused;//暂停标志
+	protected int x,y,width,height;//主游戏面板要添加状态面板，故游戏面板的初始位置需要改变，故添加x,y属性
 	
-	GamePanel(Snake snake,int width,int height){
-		this.snake=snake;
+	GamePanel(int x,int y,int width,int height){
+		this.x=x;
+		this.y=y;
 		this.width=width;
 		this.height=height;
-		this.setBounds(0, 0, width, height);
-		this.setBackground(Color.GRAY);
+		this.isPaused=false;
+		this.setBounds(this.x, this.y, this.width, this.height);
+		this.setBackground(new Color(143, 188, 143));
+		this.setLayout(null);
+		this.setBorder(new LineBorder(new Color(0, 0, 128)));
+		addSnake(new Snake(this));
 	}
+	/**
+	 * 为面板添加一条蛇
+	 * */
+	public void addSnake(Snake snake){
+		this.snake=snake;
+	}
+	
 	/**
 	 * 随机产生食物
 	 * */
@@ -38,7 +52,6 @@ public class GamePanel extends JPanel implements Runnable{
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paint(g);
-		snake.setGamePanel(this);
 		g.setColor(Color.BLUE);
 		g.fill3DRect(snake.head.x,snake.head.y, 8, 8,true);//绘制蛇头
 		
@@ -78,14 +91,33 @@ public class GamePanel extends JPanel implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		snake.setGamePanel(this);
 		try {
 			while(true){
-				Thread.sleep(200);
-				snake.move();
+				//根据游戏级别来调整线程睡眠时间的长短
+				switch(snake.level){
+				case 1:
+					Thread.sleep(200);
+					break;
+				case 2:
+					Thread.sleep(150);
+					break;
+				case 3:
+					Thread.sleep(100);
+					break;
+				}
+				
+				if(!isPaused){
+					snake.move();
+				}
 				
 				if(food==null || snake.isEat(food)){
 					food=createFood();
+				}
+				//进行级别的提升
+				if(snake.score>10 && snake.score<=20){
+					snake.level=2;
+				}else if(snake.score>20){
+					snake.level=3;
 				}
 				
 				if(snake.isOut()){
