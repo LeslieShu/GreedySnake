@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,54 +15,89 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class MenuFrame extends JFrame {
 
-	private JButton bt_start = new JButton("start");
-	private JButton bt_voice = new JButton("voice");
-	private JButton bt_exit = new JButton("exit");
-	private JButton bt_help = new JButton("help");
-	private JButton bt_level = new JButton("level");
+	private JButton bt_start = new JButton();
+	private JButton bt_voice = new JButton();
+	private JButton bt_exit = new JButton();
+	private JButton bt_help = new JButton();
+	private JButton bt_level = new JButton();
 
 	public MenuFrame() {// 初始化框架函数
 		this.setLayout(null);
 		// this.pack();//自动设置框架大小，以及在框中放入组件。只有在去掉此函数才能隐去JFrame的框
 		this.setTitle("GreedySnake");
-		this.setSize(400, 400);
+		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true); // 隐去边框
 		this.setVisible(true);
 		this.setResizable(false);
 
-		bt_start.setBounds(new Rectangle(this.getWidth() / 4,
-				this.getHeight() * 2 / 10, 200, 50));// 设置按钮相对于menu_subPanel的位置和大小);
-		bt_voice.setBounds(new Rectangle(this.getWidth() / 4,
-				this.getHeight() * 4 / 10, 200, 50));
-		bt_exit.setBounds(new Rectangle(this.getWidth() / 4,
-				this.getHeight() * 6 / 10, 200, 50));
-		bt_help.setBounds(new Rectangle(this.getWidth() / 4,
-				this.getHeight() * 30 / 40, 100, 50));
-		bt_level.setBounds(new Rectangle(this.getWidth() * 2 / 4, this
-				.getHeight() * 30 / 40, 100, 50));
+		bt_start.setBounds(new Rectangle(408,100,130,218));// 设置按钮相对于menu_subPanel的位置和大小);
+		bt_voice.setBounds(new Rectangle(37,50,159,61));
+		bt_exit.setBounds(new Rectangle(37,130,159,61));
+		bt_help.setBounds(new Rectangle(37,210,159,61));
+		bt_level.setBounds(new Rectangle(37,290,159,61));
 
 		/*
 		 * 设置按钮图片
 		 */
-		ImageIcon icon_start = new ImageIcon("E:/picture/start.jpg");// 载入按钮贴图
+		ImageIcon icon_start = new ImageIcon("E:/GreedySnake/menu/start.png");// 载入start按钮贴图
 		icon_start.getImage();
-		Image size = icon_start
+		Image size_start = icon_start
 				.getImage()
 				.getScaledInstance// 调整贴图大小与按钮大小匹配
-				(bt_start.getWidth(), bt_start.getHeight(), Image.SCALE_DEFAULT);
-		icon_start = new ImageIcon(size);
+				(136, 218, Image.SCALE_DEFAULT);
+		icon_start = new ImageIcon(size_start);
 		bt_start.setIcon(icon_start);// 贴图
+		
+		ImageIcon icon_voice = new ImageIcon("E:/GreedySnake/menu/voice.png");// 载入voice按钮贴图
+		icon_voice.getImage();
+		Image size_voice = icon_voice
+				.getImage()
+				.getScaledInstance// 调整贴图大小与按钮大小匹配
+				(icon_voice.getIconWidth(),icon_voice.getIconHeight(), Image.SCALE_DEFAULT);
+		icon_voice = new ImageIcon(size_voice);
+		bt_voice.setIcon(icon_voice);// 贴图
+
+		
+		ImageIcon icon_exit = new ImageIcon("E:/GreedySnake/menu/exit.png");// 载入exit按钮贴图
+		icon_exit.getImage();
+		Image size_exit = icon_exit
+				.getImage()
+				.getScaledInstance// 调整贴图大小与按钮大小匹配
+				(icon_exit.getIconWidth(),icon_exit.getIconHeight(), Image.SCALE_DEFAULT);
+		icon_exit = new ImageIcon(size_exit);
+		bt_exit.setIcon(icon_exit);// 贴图
+
+		
+		ImageIcon icon_help = new ImageIcon("E:/GreedySnake/menu/help.png");// 载入help按钮贴图
+		icon_help.getImage();
+		Image size_help = icon_help
+				.getImage()
+				.getScaledInstance// 调整贴图大小与按钮大小匹配
+				(icon_help.getIconWidth(),icon_help.getIconHeight(), Image.SCALE_DEFAULT);
+		icon_help = new ImageIcon(size_help);
+		bt_help.setIcon(icon_help);// 贴图
+
+		
+		ImageIcon icon_level = new ImageIcon("E:/GreedySnake/menu/level.png");// 载入level按钮贴图
+		icon_level.getImage();
+		Image size_level = icon_level
+				.getImage()
+				.getScaledInstance// 调整贴图大小与按钮大小匹配
+				(icon_level.getIconWidth(),icon_level.getIconHeight(), Image.SCALE_DEFAULT);
+		icon_level = new ImageIcon(size_level);
+		bt_level.setIcon(icon_level);// 贴图
+
 
 		/*
 		 * 背景图片的设置
 		 */
-		ImageIcon img_backGrand = new ImageIcon("E:/picture/start.jpg");// 载入背景图片
+		ImageIcon img_backGrand = new ImageIcon("E:/GreedySnake/menu/menu.jpg");// 载入背景图片
 		JLabel lab_backGrand = new JLabel(img_backGrand);// 将背景图片加入标签内
 		this.getLayeredPane()
 				.add(lab_backGrand, new Integer(Integer.MIN_VALUE));// 将标签加到JFrame中
-		lab_backGrand.setBounds(0, 0, this.getWidth(), this.getHeight());// 设置标签的大小匹配JFrame的大小
+		lab_backGrand.setBounds(0, 0, 600, 400);// 设置标签的大小匹配JFrame的大小
 		Container cp = this.getContentPane();
 		cp.setLayout(null);// 选择布局方式，为绝对布局方式
 		((JPanel) cp).setOpaque(false);// 将容器背景设置成透明，显示背景图片
@@ -82,6 +116,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	class ButtonActionListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == bt_start) {
 				start();
