@@ -10,7 +10,11 @@ import javax.swing.border.LineBorder;
 
 public class ShowPanel extends JPanel implements Runnable{
 	protected int x,y,width,height;
+<<<<<<< HEAD
 	protected MyActionListner myActionListener;
+=======
+	protected MyActionListener myActionListener;
+>>>>>>> pr/2
 	protected JLabel score,bodyThgh,wallThgh,level;
 	protected JButton btnPause,btnContinue,btnExit;
 	protected GameFrame gameFrame;
@@ -21,7 +25,11 @@ public class ShowPanel extends JPanel implements Runnable{
 		this.width=width;
 		this.height=height;
 		this.gameFrame=gameFrame;
+<<<<<<< HEAD
 		this.myActionListener=new MyActionListner(this.gameFrame);
+=======
+		this.myActionListener=new MyActionListener(this.gameFrame);
+>>>>>>> pr/2
 				
 		this.setBackground(new Color(100, 149, 237));
 		this.setBorder(new LineBorder(new Color(0, 0, 128)));
